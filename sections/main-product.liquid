@@ -660,6 +660,8 @@
                 </product-recommendations>
               {%- when 'icon-with-text' -%}
                 {% render 'icon-with-text', block: block %}
+              {%- when 'product_constructor' -%}
+                {% render 'product-constructor', constructor_product: product %}
             {%- endcase -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -730,6 +732,10 @@
   "tag": "section",
   "class": "section",
   "blocks": [
+    {
+      "type": "product_constructor",
+      "name": "Product Constructor"
+    },
     {
       "type": "@app"
     },

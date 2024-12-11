@@ -1,0 +1,80 @@
+{% comment %} constructor_product == product {% endcomment %}
+
+{% style %}
+  .select__label {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color: #000;
+    line-height: 1;
+  }
+
+  .product-constructor__single-value {
+    color: #4D7060;
+  }
+{% endstyle %}
+
+<script src="{{ 'product-constructor.js' | asset_url }}" defer></script>
+
+<div class="product_constructor">
+  {% assign product_list = constructor_product.metafields.custom.prdouct_constructor_metaobject.value.separated_products.value %}
+  {% assign product_list_label = constructor_product.metafields.custom.prdouct_constructor_metaobject.value.separated_products_label.value %}
+  {% assign product_constructor_parameters = constructor_product.metafields.custom.prdouct_constructor_metaobject.value.parameters.value %}
+  
+  {% assign current_url = request.host | append: request.path %}
+
+  <p class="select__label">{{ product_list_label }}</p>
+  <select name="main-values" id="main-values-select" onchange="location = this.value;">
+    {% for item in product_list %}
+      <option value="{{ item.url }}" id="{{ item.id }}" {% if current_url contains item.url %}selected{% endif %}>
+        {{ item.title }}
+      </option>
+    {% endfor %}
+  </select>
+
+  {% for parameter in product_constructor_parameters %}
+      {% assign parameter_values_array = '' %}
+
+      {% for variant in constructor_product.variants %}
+        {% assign variant_split = variant.option1 | split: '\' %}
+
+        {% for option in variant_split %}
+          {% assign option_downcase = option | downcase %}
+          {% assign parameter_downcase = parameter | downcase %}
+
+          {% if option_downcase contains parameter_downcase %}
+            {% assign option_label = parameter_downcase | append: ':' %}
+            {% assign option_value = option_downcase | split: option_label %}
+
+            {% if forloop.parentloop.last %}
+              {% assign option_specific_value = option_value[1] | strip %}
+            {% else %}
+              {% assign option_specific_value = option_value[1] | strip | append: '\' %}
+            {% endif %}
+
+            {% assign parameter_values_array = parameter_values_array | append: option_specific_value %}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+
+      {% assign parameter_values_array = parameter_values_array | split: '\' %}
+      {% assign result_array = parameter_values_array | uniq %}
+      {% assign parameter_for_select = parameter | downcase | split: ' ' | join: '-' %}
+
+      <p class="select__label">{{ parameter }}</p>
+      {% if result_array.size > 1 %}
+        <select name="{{ parameter_for_select }}" id="{{ parameter_for_select }}-select" data-parameter="{{ parameter }}">
+          {% for option in result_array %}
+            <option value="{{ option }}">
+              {{ option | capitalize }}
+            </option>
+          {% endfor %}
+        </select>
+      {% else %}
+        <span class="product-constructor__single-value"><strong>{{ result_array[0] }}</strong></span>
+      {% endif %}
+
+      <script>
+        console.log('{{ parameter }}', {{ result_array | json }});
+      </script>
+  {% endfor %}
+</div>
