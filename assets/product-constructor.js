@@ -33,7 +33,8 @@ class ProductConstructor extends HTMLElement {
 
     const matchingOption = options.find(option => {
       console.log('Option text: ', option.textContent.trim().toLowerCase());
-      return option.textContent.trim().toLowerCase() === parameterString;
+      console.log('Parameter string: ', parameterString);
+      return option.textContent.trim().toLowerCase() === parameterString || option.textContent.trim().toLowerCase() === `${parameterString} - unavailable`;
     });
 
     if (matchingOption) {
