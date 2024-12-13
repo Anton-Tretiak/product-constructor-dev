@@ -61,7 +61,7 @@ if (!customElements.get('product-info')) {
       }
 
       handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
-        if (!this.contains(event.target)) return;
+        // if (!this.contains(event.target)) return;
 
         this.resetProductFormState();
 
