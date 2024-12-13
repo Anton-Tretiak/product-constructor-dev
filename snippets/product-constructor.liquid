@@ -70,23 +70,13 @@
               </option>
             {% endfor %}
           </select>
-
-          {% comment %} <custom-select data-parameter="{{ parameter }}">
-            <select name="{{ parameter_for_select }}" id="{{ parameter_for_select }}-select" class="product-constructor__select--custom">
-              {% for option in result_array %}
-                <option value="{{ option }}">
-                  {{ option | capitalize }}
-                </option>
-              {% endfor %}
-            </select>
-          </custom-select> {% endcomment %}
         {% comment %} {% else %}
           <span class="product-constructor__single-value"><strong>{{ result_array[0] }}</strong></span>
         {% endif %} {% endcomment %}
 
-        <script>
+        {% comment %} <script>
           console.log('{{ parameter }}', {{ result_array | json }});
-        </script>
+        </script> {% endcomment %}
     {% endfor %}
   </product-constructor>
 </div>

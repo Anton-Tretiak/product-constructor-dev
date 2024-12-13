@@ -28,17 +28,17 @@ class ProductConstructor extends HTMLElement {
 
   updateNativeSelect() {
     const parameterString = this.buildParameterString();
-    console.log('Parameter string: ', parameterString);
+    // console.log('Parameter string: ', parameterString);
     const options = Array.from(this.nativeSelect.options);
 
     const matchingOption = options.find(option => {
-      console.log('Option text: ', option.textContent.trim().toLowerCase());
-      console.log('Parameter string: ', parameterString);
+      // console.log('Option text: ', option.textContent.trim().toLowerCase());
+      // console.log('Parameter string: ', parameterString);
       return option.textContent.trim().toLowerCase() === parameterString || option.textContent.trim().toLowerCase() === `${parameterString} - unavailable`;
     });
 
     if (matchingOption) {
-      console.log('Matching option found:', matchingOption);
+      // console.log('Matching option found:', matchingOption);
       this.nativeSelect.value = matchingOption.value;
 
       const event = new Event('change', { bubbles: true });
